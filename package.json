@@ -21,7 +21,16 @@
     "type": "git",
     "url": "git+https://github.com/EdisonTKPcom/Cryptography.git"
   },
-  "keywords": ["crypto","hash","hmac","aes","rsa","signature","scrypt","example"],
+  "keywords": [
+    "crypto",
+    "hash",
+    "hmac",
+    "aes",
+    "rsa",
+    "signature",
+    "scrypt",
+    "example"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -33,7 +42,10 @@
     "prettier": "^3.3.3"
   },
   "dependencies": {
-    "argon2": "^0.44.0"
+    "argon2": "^0.44.0",
+    "bcrypt": "^6.0.0"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }

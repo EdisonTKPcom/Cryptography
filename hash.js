@@ -1,13 +1,14 @@
 const { createHash, timingSafeEqual } = require('crypto');
-
+const bcrypt = require('bcrypt');
 /**
  * Hash a string using SHA-256.
  * (In production for passwords you should use a slow hash: argon2, bcrypt, scrypt, PBKDF2.)
  * @param {string|Buffer} input
  * @returns {string} hex digest
  */
-function hash(input) {
-    return createHash('sha256').update(input).digest('hex');
+function hash(input, saltRounds = 12) {
+    // Use bcrypt for password hashing
+    return bcrypt.hashSync(input, saltRounds);
 }
 
 /**
@@ -23,8 +24,10 @@ module.exports = { hash, hashesEqual };
 // Example usage when run directly
 if (require.main === module) {
     const password = 'hi-mom!';
-    const hash1 = hash(password);
+    const saltRounds = 12;
+    const hash1 = hash(password, saltRounds);
     console.log('hash1', hash1);
-    const hash2 = hash(password);
-    console.log('match?', hashesEqual(hash1, hash2));
+    // To verify, use bcrypt.compareSync
+    const match = bcrypt.compareSync(password, hash1);
+    console.log('match?', match);
 }
