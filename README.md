@@ -105,14 +105,18 @@ Ensure `NPM_TOKEN` secret is configured in the repository settings.
 
 ## 🛠️ Roadmap / Ideas
 
-See `ROADMAP.md` for a longer list. Highlights:
+See `ROADMAP.md` for an extended list. Status highlights:
 
-- [ ] ECDSA / Ed25519 examples
+- [x] Ed25519 / X25519 examples
+- [x] HKDF + PBKDF2 utilities
+- [x] Argon2 password hashing example
+- [x] Quantum (BB84) simulation
+- [ ] ECDSA example
 - [ ] Hybrid encryption (RSA/ECDH + AES-GCM)
-- [ ] HKDF + PBKDF2 utilities
- - [x] HKDF + PBKDF2 utilities
-- [ ] Streaming GCM + file encryption
-- [ ] PQC (Kyber/Dilithium) integration when stable libs available
+- [ ] Streaming GCM + file encryption helpers
+- [ ] Safer / vetted AES Key Wrap alternative or guidance
+- [ ] PQC (Kyber / Dilithium) integration (when stable libs available)
+- [ ] semantic-release integration
 
 Open an issue to request more examples or vote on priorities.
 
@@ -145,10 +149,10 @@ AES Key Wrap implementation provided is minimal & educational; prefer a vetted l
 
 ## 📚 Learning Resources
 
-- Node.js Crypto Docs: https://nodejs.org/api/crypto.html
- - OWASP Cryptographic Storage Cheat Sheet
- - NIST SP 800-57 & 800-63 (key management & digital identity)
- - IETF RFC 5869 (HKDF), RFC 8446 (TLS 1.3 for modern cipher suites)
+- [Node.js Crypto Docs](https://nodejs.org/api/crypto.html)
+- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)
+- NIST [SP 800-57](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final) & [SP 800-63](https://pages.nist.gov/800-63-3/) (key management & digital identity)
+- IETF [RFC 5869 (HKDF)](https://datatracker.ietf.org/doc/html/rfc5869), [RFC 8446 (TLS 1.3)](https://datatracker.ietf.org/doc/html/rfc8446)
 
 ## 📄 License
 
@@ -159,7 +163,4 @@ MIT – see LICENSE. Attribution appreciated but not required.
 Star now so you can find this again later. 🔖
 
 </div>
-
-## TODO / Roadmap
-[] a safer AES-KW swap, semantic-release integration
 
