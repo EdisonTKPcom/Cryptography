@@ -1,32 +1,39 @@
-const {  publicEncrypt, privateDecrypt } = require('crypto');
-const { generateKeyPairSync } = require('crypto');
+const { publicEncrypt, privateDecrypt, generateKeyPairSync } = require('crypto');
 
-// const { publicKey, privateKey } = require('./keypair');
-const { privateKey, publicKey } = generateKeyPairSync('rsa', {
-  modulusLength: 2048, // the length of your key in bits
-  publicKeyEncoding: {
-    type: 'spki', // recommended to be 'spki' by the Node.js docs
-    format: 'pem',
-  },
-  privateKeyEncoding: {
-    type: 'pkcs8', // recommended to be 'pkcs8' by the Node.js docs
-    format: 'pem',
-  },
-});
+/**
+ * Generate an RSA key pair (2048 bits) and return PEM strings.
+ */
+function generateKeyPair() {
+  return generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: { type: 'spki', format: 'pem' },
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+  });
+}
 
+/**
+ * Encrypt a UTF-8 string with a PEM public key, returning a hex string.
+ */
+function encrypt(publicKey, message) {
+  const encrypted = publicEncrypt(publicKey, Buffer.from(message, 'utf8'));
+  return encrypted.toString('hex');
+}
 
-const encryptedData = publicEncrypt(
-    publicKey,
-    Buffer.from(secretMessage)
-  );
+/**
+ * Decrypt a hex string with a PEM private key, returning the original UTF-8 string.
+ */
+function decrypt(privateKey, hexCiphertext) {
+  const decrypted = privateDecrypt(privateKey, Buffer.from(hexCiphertext, 'hex'));
+  return decrypted.toString('utf8');
+}
 
+module.exports = { generateKeyPair, encrypt, decrypt };
 
-console.log(encryptedData.toString('hex'))
-
-
-const decryptedData = privateDecrypt(
-    privateKey,
-    encryptedData
-);
-
-console.log(decryptedData.toString('utf-8'));
+// Example when run directly
+if (require.main === module) {
+  const { publicKey, privateKey } = generateKeyPair();
+  const message = 'secret message';
+  const cipher = encrypt(publicKey, message);
+  const plain = decrypt(privateKey, cipher);
+  console.log({ cipher, plain });
+}

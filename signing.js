@@ -1,37 +1,31 @@
-const { createSign, createVerify } = require('crypto');
-const { generateKeyPairSync } = require('crypto');
+const { createSign, createVerify, generateKeyPairSync } = require('crypto');
 
-// const { publicKey, privateKey } = require('./keypair');
-const { privateKey, publicKey } = generateKeyPairSync('rsa', {
-    modulusLength: 2048, // the length of your key in bits
-    publicKeyEncoding: {
-      type: 'spki', // recommended to be 'spki' by the Node.js docs
-      format: 'pem',
-    },
-    privateKeyEncoding: {
-      type: 'pkcs8', // recommended to be 'pkcs8' by the Node.js docs
-      format: 'pem',
-    },
+function generateKeyPair() {
+  return generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: { type: 'spki', format: 'pem' },
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
   });
-  
-const data = 'this data must be signed';
+}
 
-/// SIGN
+function sign(privateKey, data) {
+  const signer = createSign('rsa-sha256');
+  signer.update(data);
+  return signer.sign(privateKey, 'hex');
+}
 
-const signer = createSign('rsa-sha256');
+function verify(publicKey, data, signatureHex) {
+  const verifier = createVerify('rsa-sha256');
+  verifier.update(data);
+  return verifier.verify(publicKey, signatureHex, 'hex');
+}
 
-signer.update(data);
+module.exports = { generateKeyPair, sign, verify };
 
-const siguature = signer.sign(privateKey, 'hex');
-
-console.log(siguature);
-
-/// VERIFY
-
-const verifier = createVerify('rsa-sha256');
-
-verifier.update(data);
-
-const isVerified = verifier.verify(publicKey, siguature, 'hex');
-
-console.log(isVerified);
+if (require.main === module) {
+  const { privateKey, publicKey } = generateKeyPair();
+  const data = 'this data must be signed';
+  const signature = sign(privateKey, data);
+  console.log('signature', signature.slice(0, 32) + '...');
+  console.log('valid?', verify(publicKey, data, signature));
+}

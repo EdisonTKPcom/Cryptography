@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+.DS_Store
+.env
+*.log
+npm-debug.log*
+yarn-error.log*
+.idea/
+.vscode/
+*.tgz

@@ -1,16 +1,17 @@
 const { generateKeyPairSync } = require('crypto');
 
-const { privateKey, publicKey } = generateKeyPairSync('rsa', {
-  modulusLength: 2048, // the length of your key in bits
-  publicKeyEncoding: {
-    type: 'spki', // recommended to be 'spki' by the Node.js docs
-    format: 'pem',
-  },
-  privateKeyEncoding: {
-    type: 'pkcs8', // recommended to be 'pkcs8' by the Node.js docs
-    format: 'pem',
-  },
-});
+function generateKeyPair() {
+  return generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: { type: 'spki', format: 'pem' },
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+  });
+}
 
-console.log(publicKey);
-console.log(privateKey);
+module.exports = { generateKeyPair };
+
+if (require.main === module) {
+  const { publicKey, privateKey } = generateKeyPair();
+  console.log(publicKey);
+  console.log(privateKey);
+}

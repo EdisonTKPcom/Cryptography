@@ -1,14 +1,39 @@
 {
-  "name": "cryptography",
-  "version": "1.0.0",
-  "description": "",
-  "main": "asymmetric.js",
+  "name": "cryptography-mini-lab",
+  "version": "1.4.0",
+  "description": "Educational Node.js cryptography building blocks (hashing, HMAC, symmetric (CBC/GCM), asymmetric, signing, salted passwords, Argon2, quantum key distribution simulation)",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "*.js",
+    "index.d.ts",
+    "quantum/**"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "typecheck": "node -e 'console.log(\"Type definitions only (no build)\")'",
+    "bench": "node benchmarks/bench.js"
   },
   "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdisonTKPcom/Cryptography.git"
+  },
+  "keywords": ["crypto","hash","hmac","aes","rsa","signature","scrypt","example"],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.12",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.3"
+  },
   "dependencies": {
-    "crypto": "^1.0.1"
-  }
+    "argon2": "^0.44.0"
+  },
+  "engines": { "node": ">=18" }
 }

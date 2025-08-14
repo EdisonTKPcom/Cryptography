@@ -1,35 +1,21 @@
-// const { createHmac } = require('crypto');
+const { createHmac, timingSafeEqual } = require('crypto');
 
-// const password = 'super-secret!';
-// const message = '🎃 hello jack'
+function sign(message, secret) {
+    return createHmac('sha256', secret).update(message).digest('hex');
+}
 
-// const hmac = createHmac('sha256', password).update(message).digest('hex');
+function verify(message, secret, givenHex) {
+    const expected = sign(message, secret);
+    if (expected.length !== givenHex.length) return false;
+    return timingSafeEqual(Buffer.from(expected, 'hex'), Buffer.from(givenHex, 'hex'));
+}
 
-// console.log(hmac)
+module.exports = { sign, verify };
 
-const crypto = require('crypto');
-
-// Your secret key (should be kept private)
-const secret = 'your-secret-key';
-
-// The original message
-const message = 'your message';
-
-// The received HMAC
-const receivedHMAC = 'the received hmac';
-
-// Create a HMAC using the SHA256 hash function
-const hmac = crypto.createHmac('sha256', secret);
-
-// Update the HMAC with the message
-hmac.update(message);
-
-// Generate the HMAC
-const calculatedHMAC = hmac.digest('hex');
-
-// Compare the received HMAC to the calculated HMAC
-if (receivedHMAC === calculatedHMAC) {
-    console.log('The message is verified.');
-} else {
-    console.log('The message is not verified.');
+if (require.main === module) {
+    const secret = 'super-secret';
+    const msg = 'hello';
+    const mac = sign(msg, secret);
+    console.log('mac', mac);
+    console.log('verify ok?', verify(msg, secret, mac));
 }

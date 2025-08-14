@@ -1,38 +1,37 @@
 const { scryptSync, randomBytes, timingSafeEqual } = require('crypto');
 
-function signup(email, password) {
-    const salt = randomBytes(16).toString('hex');
-    const hashedPassword = scryptSync(password, salt, 64).toString('hex');
-
-    const user = { email, password: `${salt}:${hashedPassword}` }
-  
-    users.push(user);
-
-    return user
+function hashPassword(password, salt = randomBytes(16).toString('hex')) {
+    const hashed = scryptSync(password, salt, 64).toString('hex');
+    return `${salt}:${hashed}`;
 }
 
-function login(email, password) {
-    const user = users.find(v => v.email === email);
-  
-    const [salt, key] = user.password.split(':');
-    const hashedBuffer = scryptSync(password, salt, 64);
-  
+function verifyPassword(stored, passwordAttempt) {
+    const [salt, key] = stored.split(':');
+    const hashedAttempt = scryptSync(passwordAttempt, salt, 64);
     const keyBuffer = Buffer.from(key, 'hex');
-    const match = timingSafeEqual(hashedBuffer, keyBuffer);
-    
-    if (match) {
-        return 'login success!'
-    } else {
-        return 'login fail!'
+    if (keyBuffer.length !== hashedAttempt.length) return false;
+    return timingSafeEqual(hashedAttempt, keyBuffer);
+}
+
+class InMemoryUserStore {
+    constructor() { this.users = new Map(); }
+    signup(email, password) {
+        const record = hashPassword(password);
+        this.users.set(email, record);
+        return { email };
+    }
+    login(email, password) {
+        const stored = this.users.get(email);
+        if (!stored) return false;
+        return verifyPassword(stored, password);
     }
 }
 
-const users = [];
+module.exports = { hashPassword, verifyPassword, InMemoryUserStore };
 
-const user = signup('foo@bar.com', 'pa$$word');
-
-console.log(user)
-
-const result = login('foo@bar.com', 'password')
-
-console.log(result)
+if (require.main === module) {
+    const store = new InMemoryUserStore();
+    store.signup('foo@bar.com', 'pa$$word');
+    console.log('login correct?', store.login('foo@bar.com', 'pa$$word'));
+    console.log('login wrong?', store.login('foo@bar.com', 'password'));
+}
