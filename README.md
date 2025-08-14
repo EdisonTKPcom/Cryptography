@@ -1,8 +1,6 @@
 # 🔐 Cryptography Mini Lab (Node.js + WebCrypto)
 
-[![CI](https://github.com/EdisonTKPcom/Cryptography/actions/workflows/ci.yml/badge.svg)](https://github.com/EdisonTKPcom/Cryptography/actions)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)  
+[![CI](https://github.com/EdisonTKPcom/Cryptography/actions/workflows/ci.yml/badge.svg)](https://github.com/EdisonTKPcom/Cryptography/actions)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)  
 
 An easy-to-read collection of tiny, focused examples that show how to do common cryptography building blocks in Node.js using the built‑in `crypto` module:
 
