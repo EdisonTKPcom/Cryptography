@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🔐 Cryptography Mini Lab (Node.js + WebCrypto)
 
 [![CI](https://github.com/EdisonTKPcom/Cryptography/actions/workflows/ci.yml/badge.svg)](https://github.com/EdisonTKPcom/Cryptography/actions)  
@@ -161,6 +159,4 @@ MIT – see LICENSE. Attribution appreciated but not required.
 ---
 
 Star now so you can find this again later. 🔖
-
-</div>
 
